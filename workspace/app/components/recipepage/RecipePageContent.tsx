@@ -4,7 +4,8 @@ import { Instructions } from "./Instructions.tsx";
 import { DetailedRecipeDto } from "../api-types.ts";
 import { Sidebar } from "@/app/components/Sidebar.tsx";
 import { H2 } from "@/app/components/Heading.tsx";
-import IngredientsSection from "@/app/components/recipepage/IngredientsSection.tsx";
+import ConfigurableIngredientsSection from "@/app/components/recipepage/ConfigurableIngredientsSection.tsx";
+import { getDefaultServings } from "@/app/components/recipepage/ingredients-preferences.ts";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
@@ -13,7 +14,7 @@ type RecipePageContentProps = {
 export default async function RecipePageContent({
   recipe,
 }: RecipePageContentProps) {
-  const defaultServings = 4;
+  const defaultServings = await getDefaultServings();
   return (
     <div>
       <RecipeBanner recipe={recipe} />
@@ -23,7 +24,7 @@ export default async function RecipePageContent({
             cookTime={recipe.cookTime}
             preparationTime={recipe.preparationTime}
           />
-          <IngredientsSection
+          <ConfigurableIngredientsSection
             ingredients={recipe.ingredients}
             defaultServings={defaultServings}
           />

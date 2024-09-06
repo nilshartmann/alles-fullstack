@@ -1,5 +1,12 @@
 "use server";
 
-export async function getDefaultServings() {}
+let i = 4;
 
-export async function saveDefaultServings(newServings: number) {}
+export async function getDefaultServings() {
+  return i;
+}
+
+export async function saveDefaultServings(newServings: number) {
+  console.log("NEW SERVINGS", i);
+  i = newServings;
+}
