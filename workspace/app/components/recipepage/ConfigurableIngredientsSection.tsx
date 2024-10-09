@@ -1,6 +1,9 @@
+"use client";
+
 import { Ingredient } from "@/app/components/api-types.ts";
 import IngredientList from "@/app/components/recipepage/IngredientsList.tsx";
 import { useState } from "react";
+import { saveDefaultServings } from "@/app/components/recipepage/ingredients-preferences.ts";
 
 type ConfigurableIngredientsSection = {
   ingredients: Ingredient[];
@@ -21,6 +24,7 @@ export default function ConfigurableIngredientsSection({
 
   const handleServingsChange = (newServings: number) => {
     setServings(newServings);
+    saveDefaultServings(newServings);
 
     // todo: "Speichern" auf dem Server
   };
@@ -34,16 +38,18 @@ export default function ConfigurableIngredientsSection({
           }
         >
           <button
+            onClick={() => handleServingsChange(servings + 1)}
             className={
               "fa-solid fa-circle-plus text-orange_2 hover:cursor-pointer hover:text-orange_2-500"
             }
           />
           <span className={"text-gray-500"}> {servings} servings </span>
-          <i
+          <button
+            onClick={() => handleServingsChange(servings - 1)}
             className={
               "fa-solid fa-circle-minus text-orange_2 hover:cursor-pointer hover:text-orange_2-500"
             }
-          />{" "}
+          />
         </div>
       </div>
       <IngredientList ingredients={ingredients} servings={servings} />

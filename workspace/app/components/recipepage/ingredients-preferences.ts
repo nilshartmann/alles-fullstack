@@ -11,11 +11,15 @@ const dbWithUserPreferences = {
 export async function getDefaultServings() {
   console.log("GetDefaultServings", dbWithUserPreferences.defaultServings);
 
+  return dbWithUserPreferences.defaultServings;
+
   // todo: servings aus "Datenbank" lesen
 }
 
 export async function saveDefaultServings(newServings: number) {
   console.log("saveDefaultServings", newServings);
+
+  dbWithUserPreferences.defaultServings = newServings;
 
   // todo: servings "speichern"
 }

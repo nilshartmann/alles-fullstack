@@ -15,6 +15,24 @@
 //     - "Blättern" vs. "Open in New Tab"
 //     - JAVASCRIPT AUSSCHALTEN!
 
-export default async function RecipeListPage() {
-  return <div className={"container mx-auto"}>todo</div>;
+import { fetchRecipes } from "@/app/components/queries.ts";
+import { RecipeList } from "@/app/components/recipelistpage/RecipeList.tsx";
+import RecipeListPaginationBar from "@/app/components/recipelistpage/RecipeListPaginationBar.tsx";
+import RecipeListNavBar from "@/app/components/recipelistpage/RecipeListNavBar.tsx";
+
+type RecipesPageProps = { searchParams: Record<string, string> };
+
+export default async function RecipeListPage({
+  searchParams,
+}: RecipesPageProps) {
+  console.log("RENDERED AT", new Date().toISOString());
+  const recipes = await fetchRecipes(searchParams.page, searchParams.orderBy);
+
+  return (
+    <div className={"container mx-auto"}>
+      <RecipeListPaginationBar pageable={recipes} params={searchParams} />
+      <RecipeListNavBar />
+      <RecipeList recipes={recipes} />
+    </div>
+  );
 }

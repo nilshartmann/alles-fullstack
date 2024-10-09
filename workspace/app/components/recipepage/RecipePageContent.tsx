@@ -4,7 +4,11 @@ import { Instructions } from "./Instructions.tsx";
 import { DetailedRecipeDto } from "../api-types.ts";
 import { Sidebar } from "@/app/components/Sidebar.tsx";
 import { H2 } from "@/app/components/Heading.tsx";
-import IngredientsSection from "@/app/components/recipepage/IngredientsSection.tsx";
+import ConfigurableIngredientsSection from "@/app/components/recipepage/ConfigurableIngredientsSection.tsx";
+import { getDefaultServings } from "@/app/components/recipepage/ingredients-preferences.ts";
+import FeedbackListLoader from "@/app/components/recipepage/FeedbackListLoader.tsx";
+import { Suspense } from "react";
+import LoadingIndicator from "@/app/components/LoadingIndicator.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
@@ -13,7 +17,7 @@ type RecipePageContentProps = {
 export default async function RecipePageContent({
   recipe,
 }: RecipePageContentProps) {
-  const defaultServings = 4;
+  const defaultServings = await getDefaultServings();
   return (
     <div>
       <RecipeBanner recipe={recipe} />
@@ -29,7 +33,7 @@ export default async function RecipePageContent({
           //  - oben: defaultServings aus "Datenbank" laden
 
           */}
-          <IngredientsSection
+          <ConfigurableIngredientsSection
             ingredients={recipe.ingredients}
             defaultServings={defaultServings}
           />
@@ -45,6 +49,9 @@ export default async function RecipePageContent({
               - Suspense
             */}
             <H2>Feedback</H2>
+            <Suspense fallback={<LoadingIndicator />}>
+              <FeedbackListLoader recipeId={recipe.id} />
+            </Suspense>
           </Sidebar>
         </div>
       </div>

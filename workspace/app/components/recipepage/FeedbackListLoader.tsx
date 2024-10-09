@@ -1,4 +1,5 @@
 import FeedbackList from "./FeedbackList.tsx";
+import { fetchFeedback } from "@/app/components/queries.ts";
 
 type FeedbackListProps = {
   recipeId: string;
@@ -12,8 +13,8 @@ export default async function FeedbackListLoader({
   //
   // todo: Daten laden
   //
-  // const data = await fetchFeedback(recipeId);
-  const data = { feedbacks: [] };
+  const data = await fetchFeedback(recipeId);
+  // const data = { feedbacks: [] };
 
   return <FeedbackList feedbacks={data.feedbacks} />;
 }
